@@ -1,15 +1,107 @@
 'use strict'
 
 const db = require('../server/db')
-const {User} = require('../server/db/models')
+const {
+  User,
+  Bundle,
+  Advertisement,
+  Campaign,
+  Category,
+  Demographic
+} = require('../server/db/models')
 
 async function seed() {
-  await db.sync({force: true})
+  await db.sync({ force: true })
   console.log('db synced!')
 
   const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+    User.create({
+      email: 'cody@email.com',
+      password: '123',
+      isAdvertiser: true
+    }),
+    User.create({
+      email: 'murphy@email.com',
+      password: '123',
+      isAdvertiser: false
+    })
+  ])
+
+  const bundles = await Promise.all([
+    Bundle.create({
+      projectName: 'Project1'
+    }),
+    Bundle.create({
+      projectName: 'Project2'
+    }),
+    Bundle.create({
+      projectName: 'Project3'
+    })
+  ])
+
+  const campaigns = await Promise.all([
+    Campaign.create({
+      blockChainKey: '',
+      clicks: 8,
+      name: 'Rolex',
+      price: '5000.0',
+      isActive: true
+    }),
+    Campaign.create({
+      blockChainKey: '',
+      clicks: 3,
+      name: 'Gucci',
+      price: '5000.0',
+      isActive: true
+    })
+  ])
+
+  const category = await Promise.all([
+    Category.create({
+      name: 'Luxury'
+    }),
+    Category.create({
+      name: 'Fashion'
+    }),
+    Category.create({
+      name: 'Sports'
+    })
+  ])
+
+  const demographics = await Promise.all([
+    Demographic.create({
+      name: 'Women'
+    }),
+    Demographic.create({
+      name: 'Men'
+    }),
+    Demographic.create({
+      name: 'Kids'
+    })
+  ])
+
+  const advertisements = await Promise.all([
+    Advertisement.create({
+      name: 'Rolex-Ad-1',
+      image:
+        'http://doghalloweencostumeshop.com/images/thumbnails/pink-wig-for-dogs.jpg',
+      url: 'http://google.com',
+      adSpecs: 'format1'
+    }),
+    Advertisement.create({
+      name: 'Rolex-Ad-2',
+      image:
+        'http://doghalloweencostumeshop.com/images/thumbnails/pink-wig-for-dogs.jpg',
+      url: 'http://google.com',
+      adSpecs: 'format2'
+    }),
+    Advertisement.create({
+      name: 'Rolex-Ad-3',
+      image:
+        'http://doghalloweencostumeshop.com/images/thumbnails/pink-wig-for-dogs.jpg',
+      url: 'http://google.com',
+      adSpecs: 'format3'
+    })
   ])
 
   console.log(`seeded ${users.length} users`)
